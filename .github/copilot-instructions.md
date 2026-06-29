@@ -114,6 +114,6 @@ Use these prompts in Copilot Chat for deeper workflows:
 
 To use: open Copilot Chat, type `/` and select the prompt from the picker.
 
-## APH Skills
+## APH Skills & Agents
 
-The repository contains specialized engineering skills in the `skills/` directory (e.g., `api-design`, `backend-patterns`, `java-coding-standards`). When working on relevant tasks, review the `SKILL.md` inside the appropriate skill folder for detailed instructions.
+The repository contains specialized engineering skills in the `skills/` directory and specialized agents in the `agents/` directory. When working on relevant tasks, review the `SKILL.md` inside the appropriate folder for detailed instructions on how to adopt the necessary persona or workflow.

@@ -257,13 +257,21 @@ Agent Powerhouse is aligned with Antigravity natively.
 
 **To install globally from GitHub:**
 1. Clone this repository to your machine.
-2. Edit your global `skills.json` (usually `~/.gemini/config/skills.json`).
-3. Add the path to the cloned repository in the `inherits` block:
+2. Edit your global `skills.json` and `agents.json` (usually in `~/.gemini/config/`).
+3. Add the paths to the cloned repository in their respective `inherits` blocks:
 
 ```json
+// In skills.json
 {
   "inherits": [
     { "path": "/path/to/agent-powerhouse/skills.json" }
+  ]
+}
+
+// In agents.json
+{
+  "inherits": [
+    { "path": "/path/to/agent-powerhouse/agents.json" }
   ]
 }
 ```
@@ -274,7 +282,7 @@ Agent Powerhouse includes Copilot Custom Instructions.
 
 **To use with GitHub Copilot:**
 1. Copy the `.github/copilot-instructions.md` file from this repository into your target project's `.github/` folder.
-2. Copy the `skills/` directory into your project, or reference them in your Copilot instructions. Copilot will automatically read the `.github/copilot-instructions.md` file to understand the baseline rules and workflows.
+2. Copy the `skills/` and `agents/` directories into your project, or reference them in your Copilot instructions. Copilot will automatically read the `.github/copilot-instructions.md` file to understand the baseline rules and workflows.
 
 ---
 
