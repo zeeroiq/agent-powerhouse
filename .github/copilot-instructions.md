@@ -113,3 +113,7 @@ Use these prompts in Copilot Chat for deeper workflows:
 | `/refactor` | Code maintenance | Dead code cleanup and simplification |
 
 To use: open Copilot Chat, type `/` and select the prompt from the picker.
+
+## APH Skills
+
+The repository contains specialized engineering skills in the `skills/` directory (e.g., `api-design`, `backend-patterns`, `java-coding-standards`). When working on relevant tasks, review the `SKILL.md` inside the appropriate skill folder for detailed instructions.
