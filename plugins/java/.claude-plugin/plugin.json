@@ -1,0 +1,19 @@
+{
+  "name": "agent-powerhouse-java",
+  "version": "1.0.0",
+  "description": "Java, Spring Boot, and Quarkus engineering skills and review agents.",
+  "author": {
+    "name": "zeeroiq"
+  },
+  "repository": "https://github.com/zeeroiq/agent-powerhouse",
+  "license": "MIT",
+  "keywords": [
+    "java",
+    "spring-boot",
+    "quarkus",
+    "jpa",
+    "tdd",
+    "code-review",
+    "build-resolver"
+  ]
+}

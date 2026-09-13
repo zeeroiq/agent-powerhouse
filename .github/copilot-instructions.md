@@ -116,4 +116,4 @@ To use: open Copilot Chat, type `/` and select the prompt from the picker.
 
 ## APH Skills
 
-The repository contains specialized engineering skills in the `skills/` directory (e.g., `api-design`, `backend-patterns`, `java-coding-standards`). When working on relevant tasks, review the `SKILL.md` inside the appropriate skill folder for detailed instructions.
+The repository contains specialized engineering skills in the `.agents/skills/` directory (e.g., `api-design`, `backend-patterns`, `java-coding-standards`, `frontend-champion`). When working on relevant tasks, review the `SKILL.md` inside the appropriate skill folder for detailed instructions. For any frontend, UI, or UX work, always read `.agents/skills/frontend-champion/SKILL.md` before designing or writing code.

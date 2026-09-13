@@ -1,0 +1,18 @@
+{
+  "name": "agent-powerhouse-frontend",
+  "version": "1.0.0",
+  "description": "Frontend, UI/UX, and design system skills with React review and build resolver agents.",
+  "author": {
+    "name": "zeeroiq"
+  },
+  "repository": "https://github.com/zeeroiq/agent-powerhouse",
+  "license": "MIT",
+  "keywords": [
+    "frontend",
+    "react",
+    "ui-ux",
+    "design-system",
+    "code-review",
+    "build-resolver"
+  ]
+}
