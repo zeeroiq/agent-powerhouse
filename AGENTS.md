@@ -1,16 +1,22 @@
 # APH - The AgentPowerHouse — Agent Instructions
 
-This is a **production-ready AI coding ecosystem** providing 13 specialized agents and 23 skills across 3 modular plugins (Core, Frontend, Java).
+This repository provides a **vendor-neutral AI coding ecosystem** containing 23 open Agent Skills (standardized at `.agents/skills/`) and 13 specialized engineering agent definitions. It is natively compatible with Cursor, OpenAI Codex, GitHub Copilot, Google Antigravity, and Claude Code.
 
-**Version:** 1.1.0
+**Version:** 1.2.0
 
-## Mandatory Hooks
+## Harness Compatibility & Discovery
 
-> **CRITICAL (HARD HOOK):** For ANY frontend, UI, or UX work — however small — read `plugins/frontend/skills/frontend-champion/SKILL.md` in full before writing or discussing code. This is a mandatory, blocking gate before designing, editing, or discussing any UI component, screen, styling, layout, or interaction.
+- **Native `AGENTS.md` readers** (Antigravity, Cursor, Codex) automatically load this file at repository root.
+- **Claude Code** natively reads `CLAUDE.md`; a root `CLAUDE.md` file is provided that imports `@AGENTS.md` so instructions stay unified across all tools without drift.
+- **Agent Delegation Support**: For tools without discrete subagent mechanics, the primary model adopts the agent's role directly or loads its companion skill. See [docs/agents-by-tool.md](docs/agents-by-tool.md) for tool-by-tool mapping.
+
+## Mandatory Project Instructions
+
+> **CRITICAL INSTRUCTION:** For ANY frontend, UI, or UX work — however small — read `.agents/skills/frontend-champion/SKILL.md` in full before writing or discussing code. This is a mandatory, blocking rule before designing, editing, or discussing any UI component, screen, styling, layout, or interaction.
 
 ## Core Principles
 
-1. **Agent-First** — Delegate to specialized agents for domain tasks
+1. **Agent-First** — Delegate to specialized agents (or adopt their persona) for domain tasks
 2. **Test-Driven** — Write tests before implementation, 80%+ coverage required
 3. **Security-First** — Never compromise on security; validate all inputs
 4. **Immutability** — Always create new objects, never mutate existing ones
@@ -18,27 +24,28 @@ This is a **production-ready AI coding ecosystem** providing 13 specialized agen
 
 ## Available Agents
 
-| Agent | Plugin | Purpose | When to Use |
-|-------|--------|---------|-------------|
-| planner | Core | Implementation planning | Complex features, refactoring |
-| architect | Core | System design and scalability | Architectural decisions |
-| code-architect | Core | Module design and structural boundaries | Refactoring, modularization |
-| code-explorer | Core | Codebase discovery and navigation | Unfamiliar code, dependency mapping |
-| code-simplifier | Core | Cognitive load and code reduction | Simplifying complex logic, cleanup |
-| less-is-more | Core | Aggressive minimalism enforcement | Removing dead code, reducing bloat |
-| loop-operator | Core | Autonomous loop execution | Run loops safely, monitor stalls, intervene |
-| silent-failure-hunter | Core | Catch swallowed errors and false success | Debugging, auditing error handling |
-| tdd-guide | Core | Test-driven development | New features, bug fixes |
-| react-reviewer | Frontend | React js/jsx/typescript code review | React/Vite/Next.js projects |
-| react-build-resolver | Frontend | React/Vite/Webpack build errors | Frontend build and bundle failures |
-| java-reviewer | Java | Java and Spring Boot code review | Java/Spring Boot/Quarkus projects |
-| java-build-resolver | Java | Java/Maven/Gradle build errors | Java build and compilation failures |
+| Agent | Domain | Purpose | When to Use | Companion Skill |
+|-------|--------|---------|-------------|-----------------|
+| planner | Core | Implementation planning | Complex features, refactoring | `.agents/skills/agentic-engineering` |
+| architect | Core | System design and scalability | Architectural decisions | `.agents/skills/architecture-decision-records` |
+| code-architect | Core | Module design and structural boundaries | Refactoring, modularization | `.agents/skills/domain-modeling` |
+| code-explorer | Core | Codebase discovery and navigation | Unfamiliar code, dependency mapping | `.agents/skills/deep-research` |
+| code-simplifier | Core | Cognitive load and code reduction | Simplifying complex logic, cleanup | `.agents/skills/backend-patterns` |
+| less-is-more | Core | Aggressive minimalism enforcement | Removing dead code, reducing bloat | `.agents/skills/ai-first-engineering` |
+| loop-operator | Core | Autonomous loop execution | Run loops safely, monitor stalls, intervene | `.agents/skills/agentic-engineering` |
+| silent-failure-hunter | Core | Catch swallowed errors and false success | Debugging, auditing error handling | `.agents/skills/backend-patterns` |
+| tdd-guide | Core | Test-driven development | New features, bug fixes | `.agents/skills/agentic-engineering` |
+| react-reviewer | Frontend | React js/jsx/typescript code review | React/Vite/Next.js projects | `.agents/skills/frontend-champion` |
+| react-build-resolver | Frontend | React/Vite/Webpack build errors | Frontend build and bundle failures | `.agents/skills/frontend-patterns` |
+| java-reviewer | Java | Java and Spring Boot code review | Java/Spring Boot/Quarkus projects | `.agents/skills/java-coding-standards` |
+| java-build-resolver | Java | Java/Maven/Gradle build errors | Java build and compilation failures | `.agents/skills/springboot-verification` |
 
+*If your tool does not support discrete subagent delegation, consult [docs/agents-by-tool.md](docs/agents-by-tool.md) to apply the agent's role directly in the primary conversation.*
 
 ## Agent Orchestration
 
 Use agents and skills proactively without user prompt:
-- **Frontend / UI / UX work (HARD HOOK)** → For ANY frontend, UI, or UX work — however small — read `plugins/frontend/skills/frontend-champion/SKILL.md` in full before writing or discussing code.
+- **Frontend / UI / UX work** → For ANY frontend, UI, or UX work — however small — read `.agents/skills/frontend-champion/SKILL.md` in full before writing or discussing code.
 - Complex feature requests → **planner**
 - Architectural decision → **architect**
 - Bug fix or new feature → **tdd-guide**
@@ -101,7 +108,7 @@ Troubleshoot failures: check test isolation → verify mocks → fix implementat
 
 ## Development Workflow
 
-1. **Frontend / UI Gate (Hard Hook)** — For ANY frontend, UI, or UX work — however small — read `plugins/frontend/skills/frontend-champion/SKILL.md` in full before writing or discussing code.
+1. **Frontend / UI Gate** — For ANY frontend, UI, or UX work — however small — read `.agents/skills/frontend-champion/SKILL.md` in full before writing or discussing code.
 2. **Plan** — Use planner agent, identify dependencies and risks, break into phases
 3. **TDD** — Use tdd-guide agent, write tests first, implement, refactor
 4. **Review** — Use code-reviewer agent immediately, address CRITICAL/HIGH issues
@@ -114,9 +121,10 @@ Troubleshoot failures: check test isolation → verify mocks → fix implementat
 
 ## Workflow Surface Policy
 
-- Plugin `skills/` directories are the canonical workflow surfaces.
-- New workflow contributions should land in the appropriate `plugins/<plugin>/skills/` directory.
-- `commands/` is a legacy slash-entry compatibility surface and should only be added or updated when a shim is still required for migration or cross-harness parity.
+- `.agents/skills/` is the universal, vendor-neutral workflow surface (conforming to the open Agent Skills standard).
+- `.claude/skills/` mirrors `.agents/skills/` for Cursor compatibility and direct Claude Code vendoring.
+- `plugins/*/skills/` hosts the modular plugin packages for Claude Code's marketplace.
+- `scripts/sync-skills.sh` ensures bidirectional parity between `plugins/*/skills/` and `.agents/skills/`.
 
 ## Git Workflow
 
@@ -141,13 +149,18 @@ Troubleshoot failures: check test isolation → verify mocks → fix implementat
 ## Project Structure
 
 ```
+.agents/skills/  — Universal Agent Skills surface (scanned by Cursor, Codex, Copilot, Antigravity)
+.claude/skills/  — Compatibility skill mirror (scanned by Cursor and Claude Code)
 plugins/
   core/          — 9 agents and 10 skills for general engineering, planning, and review
   frontend/      — 2 agents and 4 skills for UI/UX, React, and design systems
   java/          — 2 agents and 9 skills for Java, Spring Boot, and Quarkus
-.claude-plugin/  — Marketplace catalog manifest (marketplace.json)
-skills.json      — Multi-plugin skill path registration
-AGENTS.md        — Agent and skill orchestration guidelines
+.claude-plugin/  — Claude Code marketplace catalog (marketplace.json)
+scripts/         — Skill sync and CI verification utilities (sync-skills.sh)
+docs/            — Cross-tool specifications (agents-by-tool.md)
+skills.json      — Declared Antigravity / skills CLI path manifest
+CLAUDE.md        — Claude Code instruction bridge (imports @AGENTS.md)
+AGENTS.md        — Universal agent instructions and orchestration guidelines
 PRO_STANDARDS.md — Non-negotiable engineering standards
 ```
 

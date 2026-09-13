@@ -199,11 +199,24 @@ The repository root defines `.claude-plugin/marketplace.json`, allowing teams an
 
 ---
 
+# How This Repository Stays Provider-Agnostic
+
+Agent Powerhouse delivers both **Claude Code Marketplace modularity** and **universal Agent Skills interoperability** without duplicating source files:
+
+1. **Single Source of Truth (`plugins/`):** The authoritative skill definitions and autonomous agent prompts live under `plugins/<domain>/skills/` and `plugins/<domain>/agents/`.
+2. **Universal Open Standard Surface (`.agents/skills/`):** All 23 skills are exposed as a flat, un-nested directory tree at `.agents/skills/` via relative symlinks, conforming strictly to the open [Agent Skills specification](https://agentskills.io) adopted across the industry.
+3. **Compatibility Mirror (`.claude/skills/`):** Symlinks mirror `.agents/skills/` into `.claude/skills/`, providing out-of-the-box discovery for Cursor compatibility paths and direct repository vendoring in Claude Code without marketplace installation.
+4. **Automated Drift Prevention (`scripts/sync-skills.sh`):** A verification script ensures bidirectional parity in CI (`./scripts/sync-skills.sh --check`), with `--copy` fallback support for file systems where symlinks are restricted.
+5. **Unified Instructions & Bridge (`AGENTS.md` & `CLAUDE.md`):** Core engineering rules live in `AGENTS.md`. A root `CLAUDE.md` file imports `@AGENTS.md`, ensuring all agent environments execute identical behavioral standards.
+6. **Agent Fallback Architecture (`docs/agents-by-tool.md`):** Autonomous agent definitions (`agents/*.md`) map seamlessly to primary model personas and companion skills in tools that lack discrete subagent execution engines.
+
+---
+
 # Installation
 
-You can install Agent Powerhouse plugins and skills using Claude Code or other compatible agent environments.
+You can install Agent Powerhouse plugins and skills using Claude Code, Cursor, Codex, Antigravity, GitHub Copilot, or any tool supporting the open Agent Skills specification.
 
-## 1. Claude Code Marketplace (Recommended)
+## 1. Claude Code Marketplace
 
 Agent Powerhouse is distributed as a Claude Code marketplace catalog hosting three modular plugins:
 
@@ -217,66 +230,40 @@ claude plugin marketplace add zeeroiq/agent-powerhouse
 /plugin install agent-powerhouse-java
 ```
 
-For local repository development or offline workspace linking:
-```json
-{
-  "plugins": [
-    "./plugins/core",
-    "./plugins/frontend",
-    "./plugins/java"
-  ]
-}
-```
+For direct repository vendoring or offline workspace linking without marketplace installation, Claude Code automatically discovers `.claude/skills/` and instructions via `CLAUDE.md`.
 
-## 2. Using GitHub CLI (gh)
+## 2. Cursor
 
-If you have the `gh skill` extension installed, you can add this repository easily:
+Cursor natively discovers all 23 skills from `.agents/skills/` (and `.claude/skills/`) and enforces guidelines from `AGENTS.md`:
 
-**Global Installation:**
-```bash
-gh skill install zeeroiq/agent-powerhouse --global
-```
+1. Clone or submodule this repository into your workspace (e.g. `vendor/agent-powerhouse`).
+2. Alternatively, symlink or copy `.agents/skills/` into your project's `.agents/skills/` or `.cursor/skills/`.
+3. Cursor automatically loads skill metadata at session startup and activates skills progressively on demand.
 
-**Workspace-Level Installation:**
-```bash
-gh skill install zeeroiq/agent-powerhouse
-```
+## 3. OpenAI Codex
 
-## 3. Using NPM / NPX
+Codex natively discovers the open Agent Skills format:
 
-You can use the `skills` CLI package to add these skills:
+1. Place or link `.agents/skills/` at the root of your repository.
+2. Ensure `AGENTS.md` is at your project root to provide operational rules.
 
-**Install all skills globally:**
-```bash
-npx skills add all zeeroiq/agent-powerhouse --global
-```
+## 4. Google Antigravity
 
-**Install all skills to the current workspace:**
-```bash
-npx skills add all zeeroiq/agent-powerhouse
-```
+Antigravity natively discovers workspace customizations:
 
-**Install individual skills:**
-```bash
-npx skills add api-design zeeroiq/agent-powerhouse
-npx skills add backend-patterns zeeroiq/agent-powerhouse
-```
+### Workspace Discovery
+Opening this repository in Antigravity automatically detects:
+- All 23 skills in `.agents/skills/`
+- Workspace rules in `AGENTS.md` and `PRO_STANDARDS.md`
+- Non-standard declared paths in `skills.json`
 
-## 4. Manual Antigravity Installation
-
-Antigravity natively supports the structure of this repository. You can install these skills either globally or on a per-workspace basis manually.
-
-### Global Installation (Recommended)
-This makes the skills available to Antigravity across all your projects.
-
-1. **Clone the repository:**
+### Global Antigravity Installation
+To make all skills available across all projects:
+1. Clone the repository to `~/.agent-powerhouse`:
    ```bash
-   git clone https://github.com/agent-powerhouse/agent-powerhouse.git ~/.agent-powerhouse
+   git clone https://github.com/zeeroiq/agent-powerhouse.git ~/.agent-powerhouse
    ```
-2. **Open your global Antigravity config:**
-   Navigate to `~/.gemini/config/`. If `skills.json` does not exist, create it.
-3. **Add the inheritance path:**
-   Update the `inherits` array to point to the repository's `skills.json` file.
+2. In `~/.gemini/config/skills.json` (create if missing), inherit the catalog:
    ```json
    {
      "inherits": [
@@ -285,45 +272,45 @@ This makes the skills available to Antigravity across all your projects.
    }
    ```
 
-### Workspace-Level Installation
-This makes the skills available only in a specific project.
+## 5. GitHub Copilot
 
-1. Clone or submodule the repository into your project (e.g., `vendor/agent-powerhouse`).
-2. In your project's root, create `.agents/skills.json` (if it doesn't exist).
-3. Add the inheritance path:
-   ```json
-   {
-     "inherits": [
-       { "path": "vendor/agent-powerhouse/skills.json" }
-     ]
-   }
-   ```
+GitHub Copilot supports workspace instructions and Agent Skills:
 
-## 5. GitHub Copilot Installation
+1. **Instructions:** Copy `.github/copilot-instructions.md` to your repository's `.github/` folder.
+2. **Skills:** Include or link `.agents/skills/` in your repository. Copilot Chat and Copilot coding agents consult `.agents/skills/` for domain-specific tasks.
 
-GitHub Copilot relies on custom instructions placed within the target repository.
+## 6. Open Agent Skills CLI (`npx skills`)
 
-1. **Copy the Copilot Instructions:**
-   Copy `.github/copilot-instructions.md` from this repository to your target repository's `.github/` folder.
-2. **Include the Skills Directory:**
-   Copy the relevant `plugins/<plugin>/skills/` directory from this repository into your target project. 
-3. **Usage:**
-   Copilot will automatically read the `.github/copilot-instructions.md` file. This file contains baseline rules and explicitly instructs Copilot to consult the skills directory when performing tasks.
+The open `skills` CLI (by `skills.sh` / Vercel Labs) discovers skills directly from this repository:
+
+```bash
+# List all available skills in this repository
+npx skills add zeeroiq/agent-powerhouse --list
+
+# Install all skills into your active agent
+npx skills add zeeroiq/agent-powerhouse --skill '*'
+
+# Install a specific skill
+npx skills add zeeroiq/agent-powerhouse --skill frontend-champion
+```
+
+> **Windows Note on Symlinks:** On Windows, Git requires developer mode or `git config core.symlinks true` to materialize symlinks. If symlinks are unavailable on your filesystem, run `./scripts/sync-skills.sh --copy` to replace symlinks with direct directory copies.
 
 ---
 
 # Integration Support
 
-Current target platforms:
-
-| Platform | Status |
-|-----------|----------|
-| Claude Code | Supported (Marketplace: `claude plugin marketplace add zeeroiq/agent-powerhouse`) |
-| Cursor | Planned |
-| Gemini CLI | Planned |
-| OpenClaw | Planned |
-| Roo Code | Planned |
-| Cline | Planned |
+| Platform / Client | Status | Discovery & Operational Mechanism |
+|-------------------|--------|-----------------------------------|
+| **Claude Code** | Supported | Marketplace catalog (`zeeroiq/agent-powerhouse`) or `.claude/skills/` + `CLAUDE.md` bridge |
+| **Cursor** | Supported | Native `.agents/skills/` & `.claude/skills/` discovery; rules via `AGENTS.md` |
+| **OpenAI Codex** | Supported | Native `.agents/skills/` discovery & root `AGENTS.md` instructions |
+| **Google Antigravity** | Supported | Native `.agents/skills/` discovery, root `AGENTS.md`, and `skills.json` manifest |
+| **GitHub Copilot** | Supported (Verified Surfaces) | Copilot Chat & Coding Agent via `.github/copilot-instructions.md`; VS Code Agent mode via `.agents/skills/` |
+| **Gemini CLI** | Supported | Native `.agents/skills/` discovery & declared `skills.json` |
+| **OpenClaw** | Supported | Native `.agents/skills/` discovery (per Agent Skills standard) |
+| **Roo Code** | Supported | Native `.agents/skills/` discovery |
+| **Cline** | Supported | Native `.agents/skills/` discovery |
 
 ---
 
