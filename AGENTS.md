@@ -4,6 +4,10 @@ This is a **production-ready AI coding plugin** providing 11 specialized agents 
 
 **Version:** 1.0.0
 
+## Mandatory Hooks
+
+> **CRITICAL (HARD HOOK):** For ANY frontend, UI, or UX work — however small — read `skills/frontend-champion/SKILL.md` in full before writing or discussing code. This is a mandatory, blocking gate before designing, editing, or discussing any UI component, screen, styling, layout, or interaction.
+
 ## Core Principles
 
 1. **Agent-First** — Delegate to specialized agents for domain tasks
@@ -27,7 +31,8 @@ This is a **production-ready AI coding plugin** providing 11 specialized agents 
 
 ## Agent Orchestration
 
-Use agents proactively without user prompt:
+Use agents and skills proactively without user prompt:
+- **Frontend / UI / UX work (HARD HOOK)** → For ANY frontend, UI, or UX work — however small — read `skills/frontend-champion/SKILL.md` in full before writing or discussing code.
 - Complex feature requests → **planner**
 - Code just written/modified → **code-reviewer**
 - Bug fix or new feature → **tdd-guide**
@@ -86,15 +91,16 @@ Troubleshoot failures: check test isolation → verify mocks → fix implementat
 
 ## Development Workflow
 
-1. **Plan** — Use planner agent, identify dependencies and risks, break into phases
-2. **TDD** — Use tdd-guide agent, write tests first, implement, refactor
-3. **Review** — Use code-reviewer agent immediately, address CRITICAL/HIGH issues
-4. **Capture knowledge in the right place**
+1. **Frontend / UI Gate (Hard Hook)** — For ANY frontend, UI, or UX work — however small — read `skills/frontend-champion/SKILL.md` in full before writing or discussing code.
+2. **Plan** — Use planner agent, identify dependencies and risks, break into phases
+3. **TDD** — Use tdd-guide agent, write tests first, implement, refactor
+4. **Review** — Use code-reviewer agent immediately, address CRITICAL/HIGH issues
+5. **Capture knowledge in the right place**
    - Personal debugging notes, preferences, and temporary context → auto memory
    - Team/project knowledge (architecture decisions, API changes, runbooks) → the project's existing docs structure
    - If the current task already produces the relevant docs or code comments, do not duplicate the same information elsewhere
    - If there is no obvious project doc location, ask before creating a new top-level file
-5. **Commit** — Conventional commits format, comprehensive PR summaries
+6. **Commit** — Conventional commits format, comprehensive PR summaries
 
 ## Workflow Surface Policy
 
