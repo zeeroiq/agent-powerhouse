@@ -1,0 +1,39 @@
+{
+  "name": "agent-powerhouse",
+  "description": "Agent Powerhouse plugin marketplace providing production-ready engineering skills and autonomous agents across core engineering, frontend, and Java ecosystems.",
+  "owner": {
+    "name": "zeeroiq"
+  },
+  "plugins": [
+    {
+      "name": "agent-powerhouse-core",
+      "source": "./plugins/core",
+      "description": "General engineering process skills and autonomous agents for planning, architecture, TDD, and debugging.",
+      "version": "1.0.0",
+      "author": {
+        "name": "zeeroiq"
+      },
+      "repository": "https://github.com/zeeroiq/agent-powerhouse"
+    },
+    {
+      "name": "agent-powerhouse-frontend",
+      "source": "./plugins/frontend",
+      "description": "Frontend, UI/UX, and design system skills with React review and build resolver agents.",
+      "version": "1.0.0",
+      "author": {
+        "name": "zeeroiq"
+      },
+      "repository": "https://github.com/zeeroiq/agent-powerhouse"
+    },
+    {
+      "name": "agent-powerhouse-java",
+      "source": "./plugins/java",
+      "description": "Java, Spring Boot, and Quarkus engineering skills and review agents.",
+      "version": "1.0.0",
+      "author": {
+        "name": "zeeroiq"
+      },
+      "repository": "https://github.com/zeeroiq/agent-powerhouse"
+    }
+  ]
+}

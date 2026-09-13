@@ -1,12 +1,12 @@
 # APH - The AgentPowerHouse — Agent Instructions
 
-This is a **production-ready AI coding plugin** providing 11 specialized agents and 18 skills.
+This is a **production-ready AI coding ecosystem** providing 13 specialized agents and 23 skills across 3 modular plugins (Core, Frontend, Java).
 
-**Version:** 1.0.0
+**Version:** 1.1.0
 
 ## Mandatory Hooks
 
-> **CRITICAL (HARD HOOK):** For ANY frontend, UI, or UX work — however small — read `skills/frontend-champion/SKILL.md` in full before writing or discussing code. This is a mandatory, blocking gate before designing, editing, or discussing any UI component, screen, styling, layout, or interaction.
+> **CRITICAL (HARD HOOK):** For ANY frontend, UI, or UX work — however small — read `plugins/frontend/skills/frontend-champion/SKILL.md` in full before writing or discussing code. This is a mandatory, blocking gate before designing, editing, or discussing any UI component, screen, styling, layout, or interaction.
 
 ## Core Principles
 
@@ -18,25 +18,35 @@ This is a **production-ready AI coding plugin** providing 11 specialized agents 
 
 ## Available Agents
 
-| Agent | Purpose | When to Use |
-|-------|---------|-------------|
-| planner | Implementation planning | Complex features, refactoring |
-| architect | System design and scalability | Architectural decisions |
-| tdd-guide | Test-driven development | New features, bug fixes |
-| java-reviewer | Java and Spring Boot code review | Java/Spring Boot projects |
-| java-build-resolver | Java/Maven/Gradle build errors | Java build failures |
-| loop-operator | Autonomous loop execution | Run loops safely, monitor stalls, intervene |
-| react-reviewer | React js/jsx/typescript code reviewer | react/vite/webpack projects|
+| Agent | Plugin | Purpose | When to Use |
+|-------|--------|---------|-------------|
+| planner | Core | Implementation planning | Complex features, refactoring |
+| architect | Core | System design and scalability | Architectural decisions |
+| code-architect | Core | Module design and structural boundaries | Refactoring, modularization |
+| code-explorer | Core | Codebase discovery and navigation | Unfamiliar code, dependency mapping |
+| code-simplifier | Core | Cognitive load and code reduction | Simplifying complex logic, cleanup |
+| less-is-more | Core | Aggressive minimalism enforcement | Removing dead code, reducing bloat |
+| loop-operator | Core | Autonomous loop execution | Run loops safely, monitor stalls, intervene |
+| silent-failure-hunter | Core | Catch swallowed errors and false success | Debugging, auditing error handling |
+| tdd-guide | Core | Test-driven development | New features, bug fixes |
+| react-reviewer | Frontend | React js/jsx/typescript code review | React/Vite/Next.js projects |
+| react-build-resolver | Frontend | React/Vite/Webpack build errors | Frontend build and bundle failures |
+| java-reviewer | Java | Java and Spring Boot code review | Java/Spring Boot/Quarkus projects |
+| java-build-resolver | Java | Java/Maven/Gradle build errors | Java build and compilation failures |
 
 
 ## Agent Orchestration
 
 Use agents and skills proactively without user prompt:
-- **Frontend / UI / UX work (HARD HOOK)** → For ANY frontend, UI, or UX work — however small — read `skills/frontend-champion/SKILL.md` in full before writing or discussing code.
+- **Frontend / UI / UX work (HARD HOOK)** → For ANY frontend, UI, or UX work — however small — read `plugins/frontend/skills/frontend-champion/SKILL.md` in full before writing or discussing code.
 - Complex feature requests → **planner**
-- Code just written/modified → **code-reviewer**
-- Bug fix or new feature → **tdd-guide**
 - Architectural decision → **architect**
+- Bug fix or new feature → **tdd-guide**
+- Code just written/modified (Java/Spring) → **java-reviewer**
+- Code just written/modified (React/Frontend) → **react-reviewer**
+- Build failures (Java) → **java-build-resolver**
+- Build failures (React) → **react-build-resolver**
+- Swallowed errors / suspicious silent bugs → **silent-failure-hunter**
 - Autonomous loops / loop monitoring → **loop-operator**
 
 Use parallel execution for independent operations — launch multiple agents simultaneously.
@@ -91,7 +101,7 @@ Troubleshoot failures: check test isolation → verify mocks → fix implementat
 
 ## Development Workflow
 
-1. **Frontend / UI Gate (Hard Hook)** — For ANY frontend, UI, or UX work — however small — read `skills/frontend-champion/SKILL.md` in full before writing or discussing code.
+1. **Frontend / UI Gate (Hard Hook)** — For ANY frontend, UI, or UX work — however small — read `plugins/frontend/skills/frontend-champion/SKILL.md` in full before writing or discussing code.
 2. **Plan** — Use planner agent, identify dependencies and risks, break into phases
 3. **TDD** — Use tdd-guide agent, write tests first, implement, refactor
 4. **Review** — Use code-reviewer agent immediately, address CRITICAL/HIGH issues
@@ -104,8 +114,8 @@ Troubleshoot failures: check test isolation → verify mocks → fix implementat
 
 ## Workflow Surface Policy
 
-- `skills/` is the canonical workflow surface.
-- New workflow contributions should land in `skills/` first.
+- Plugin `skills/` directories are the canonical workflow surfaces.
+- New workflow contributions should land in the appropriate `plugins/<plugin>/skills/` directory.
 - `commands/` is a legacy slash-entry compatibility surface and should only be added or updated when a shim is still required for migration or cross-harness parity.
 
 ## Git Workflow
@@ -131,17 +141,15 @@ Troubleshoot failures: check test isolation → verify mocks → fix implementat
 ## Project Structure
 
 ```
-agents/          — 11 specialized subagents
-skills/          — 18 workflow skills and domain knowledge
-commands/        — 92 slash commands
-hooks/           — Trigger-based automations
-rules/           — Always-follow guidelines (common + per-language)
-scripts/         — Cross-platform Node.js utilities
-mcp-configs/     — 14 MCP server configurations
-tests/           — Test suite
+plugins/
+  core/          — 9 agents and 10 skills for general engineering, planning, and review
+  frontend/      — 2 agents and 4 skills for UI/UX, React, and design systems
+  java/          — 2 agents and 9 skills for Java, Spring Boot, and Quarkus
+.claude-plugin/  — Marketplace catalog manifest (marketplace.json)
+skills.json      — Multi-plugin skill path registration
+AGENTS.md        — Agent and skill orchestration guidelines
+PRO_STANDARDS.md — Non-negotiable engineering standards
 ```
-
-`commands/` remains in the repo for compatibility, but the long-term direction is skills-first.
 
 ## Success Metrics
 

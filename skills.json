@@ -1,7 +1,13 @@
 {
   "entries": [
     {
-      "path": "skills"
+      "path": "plugins/core/skills"
+    },
+    {
+      "path": "plugins/frontend/skills"
+    },
+    {
+      "path": "plugins/java/skills"
     }
   ]
 }

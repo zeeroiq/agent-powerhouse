@@ -66,19 +66,30 @@ Skills evolve independently and maintain change history.
 
 ```text
 agent-powerhouse/
-
-├── registry.yaml
-│
-├── frameworks/
-│
-├── skills/
-│
-├── integrations/
-│
-├── examples/
-│
-├── docs/
-│
+├── .claude-plugin/
+│   └── marketplace.json            # Claude Code marketplace catalog
+├── plugins/
+│   ├── core/                       # Core engineering process plugin
+│   │   ├── .claude-plugin/
+│   │   │   └── plugin.json
+│   │   ├── skills/                 # 10 general engineering skills
+│   │   ├── agents/                 # 9 autonomous agents
+│   │   └── README.md
+│   ├── frontend/                   # Frontend & UI/UX engineering plugin
+│   │   ├── .claude-plugin/
+│   │   │   └── plugin.json
+│   │   ├── skills/                 # 4 UI/UX & design skills
+│   │   ├── agents/                 # 2 React review & build agents
+│   │   └── README.md
+│   └── java/                       # Java, Spring Boot & Quarkus plugin
+│       ├── .claude-plugin/
+│       │   └── plugin.json
+│       ├── skills/                 # 9 Java & enterprise skills
+│       ├── agents/                 # 2 Java review & build agents
+│       └── README.md
+├── skills.json                     # Multi-path skill registration
+├── AGENTS.md                       # Orchestration & hooks
+├── PRO_STANDARDS.md                # Quality & prompt standards
 ├── CHANGELOG.md
 ├── LICENSE
 └── README.md
@@ -86,174 +97,138 @@ agent-powerhouse/
 
 ---
 
-# Frameworks
+# Plugins & Marketplace Architecture
 
-Frameworks provide reusable standards shared across multiple skills.
+Agent Powerhouse is packaged as a modular Claude Code marketplace (`.claude-plugin/marketplace.json`) hosting three specialized plugins:
 
-Examples:
-
-- Engineering Principles
-- Severity Model
-- Architecture Principles
-- Review Output Format
-- Security Standards
-- Reliability Standards
-
-Frameworks should remain generic and reusable.
+1. **`agent-powerhouse-core`** (`plugins/core`): General engineering process skills (planning, architecture, TDD, debugging, research, adversarial design interrogation) and 9 autonomous agents (`planner`, `architect`, `tdd-guide`, `code-architect`, `code-explorer`, `code-simplifier`, `less-is-more`, `loop-operator`, `silent-failure-hunter`).
+2. **`agent-powerhouse-frontend`** (`plugins/frontend`): UI/UX standards, design system governance, and React engineering skills with specialized review and build error resolution agents (`react-reviewer`, `react-build-resolver`).
+3. **`agent-powerhouse-java`** (`plugins/java`): Enterprise Java, Spring Boot, Quarkus, JPA/Hibernate, and cloud-native backend skills with specialized review and build resolver agents (`java-reviewer`, `java-build-resolver`).
 
 ---
 
-# Skills
+# Skills & Agents
 
-A skill encapsulates a specific engineering capability.
+### Skills (`SKILL.md`)
 
-Examples:
-
-- Senior Code Review
-- Security Review
-- Production Readiness Review
-- Root Cause Analysis
-- System Design Review
-- Java Performance Review
-- Spring Boot Review
-- Kafka Review
-- Google L5 Interviewer
-- DSA Tutor
-
-Each skill contains:
+Each skill encapsulates a specific engineering capability and lives in its own directory within a plugin's `skills/` folder:
 
 ```text
-skill-name/
+plugins/<plugin>/skills/<skill-name>/
+└── SKILL.md
+```
 
-├── skill.yaml
-├── prompt.md
-├── examples/
-└── tests/
+Every `SKILL.md` uses native Claude Code / Antigravity skill format with YAML frontmatter specifying `name` and `description`, followed by unambiguous operational guidelines, step-by-step procedures, failure modes, and verification gates.
+
+### Agents (`<agent-name>.md`)
+
+Autonomous subagents live within a plugin's `agents/` folder:
+
+```text
+plugins/<plugin>/agents/<agent-name>.md
+```
+
+Each agent defines role-specific frontmatter (`name`, `description`, `model`, `tools`) and an exhaustive system prompt governing autonomous execution, code review, or build remediation.
+
+---
+
+# Standards & Skill Contract
+
+All skills and agents in this repository adhere to the non-negotiable operational bar defined in [PRO_STANDARDS.md](PRO_STANDARDS.md):
+
+- **Plan Before Action:** Formulate an explicit plan, decompose dependencies, and state assumptions before writing code.
+- **Tool-First Grounding:** Never answer from memory when ground-truth files, tests, or configurations exist in the workspace.
+- **Zero Placeholder Tolerance:** No `// TODO`, stub mocks, or truncated boilerplate. Deliver complete, runnable code.
+- **Compulsory Verification:** Self-audit against requirements and verify builds/tests before reporting completion.
+- **Defensive Design:** Explicit handling for timeouts, concurrency, nulls, and boundary failures; zero silent error swallowing.
+- **80%+ Test Coverage:** Behavior-driven unit, integration, and flow tests for all non-trivial logic.
+
+---
+
+# Marketplace Catalog
+
+The repository root defines `.claude-plugin/marketplace.json`, allowing teams and developers to install any or all plugins directly via Claude Code:
+
+```json
+{
+  "name": "agent-powerhouse",
+  "owner": {
+    "name": "zeeroiq"
+  },
+  "plugins": [
+    {
+      "name": "agent-powerhouse-core",
+      "source": "./plugins/core",
+      "description": "General engineering process skills and autonomous agents for planning, architecture, TDD, and debugging.",
+      "version": "1.0.0"
+    },
+    {
+      "name": "agent-powerhouse-frontend",
+      "source": "./plugins/frontend",
+      "description": "Frontend, UI/UX, and design system skills with React review and build resolver agents.",
+      "version": "1.0.0"
+    },
+    {
+      "name": "agent-powerhouse-java",
+      "source": "./plugins/java",
+      "description": "Java, Spring Boot, and Quarkus engineering skills and review agents.",
+      "version": "1.0.0"
+    }
+  ]
+}
 ```
 
 ---
 
-# Skill Contract
+# Plugin Inventory
 
-Every skill must provide:
+## Core Plugin (`agent-powerhouse-core`)
 
-## skill.yaml
+- **Skills:** `agentic-engineering`, `ai-first-engineering`, `api-design`, `architecture-decision-records`, `backend-patterns`, `deep-research`, `domain-modeling`, `grill-me`, `grill-with-docs`, `grilling`
+- **Agents:** `architect`, `code-architect`, `code-explorer`, `code-simplifier`, `less-is-more`, `loop-operator`, `planner`, `silent-failure-hunter`, `tdd-guide`
 
-Metadata and registration information.
+## Frontend Plugin (`agent-powerhouse-frontend`)
 
-## prompt.md
+- **Skills:** `frontend-champion`, `frontend-design-direction`, `frontend-patterns`, `design-system`
+- **Agents:** `react-reviewer`, `react-build-resolver`
 
-Primary instructions used by the agent.
+## Java Plugin (`agent-powerhouse-java`)
 
-## examples/
-
-Representative examples.
-
-## tests/
-
-Expected outputs for validation.
+- **Skills:** `java-coding-standards`, `jpa-patterns`, `quarkus-patterns`, `quarkus-security`, `quarkus-tdd`, `springboot-patterns`, `springboot-security`, `springboot-tdd`, `springboot-verification`
+- **Agents:** `java-reviewer`, `java-build-resolver`
 
 ---
 
-# Registry
+# Installation
 
-The registry acts as the source of truth.
+You can install Agent Powerhouse plugins and skills using Claude Code or other compatible agent environments.
 
-Example:
+## 1. Claude Code Marketplace (Recommended)
 
-```yaml
-skills:
-  - senior-code-review
-  - security-review
-  - debugging
-```
-
----
-
-# Creating a New Skill
-
-Create a new folder:
+Agent Powerhouse is distributed as a Claude Code marketplace catalog hosting three modular plugins:
 
 ```bash
-skills/my-new-skill
+# Add the marketplace catalog
+claude plugin marketplace add zeeroiq/agent-powerhouse
+
+# Install the plugins you need
+/plugin install agent-powerhouse-core
+/plugin install agent-powerhouse-frontend
+/plugin install agent-powerhouse-java
 ```
 
-Add:
-
-```text
-skill.yaml
-prompt.md
-examples/
-tests/
+For local repository development or offline workspace linking:
+```json
+{
+  "plugins": [
+    "./plugins/core",
+    "./plugins/frontend",
+    "./plugins/java"
+  ]
+}
 ```
 
-Register the skill:
-
-```yaml
-skills:
-  - my-new-skill
-```
-
----
-
-# Example Skill
-
-```yaml
-name: senior-code-review
-
-version: 1.0.0
-
-description: >
-  Performs senior-level engineering code reviews.
-
-inherits:
-  - engineering-principles
-  - severity-model
-
-entrypoint: prompt.md
-```
-
----
-
-# Skill Categories
-
-## Engineering Reviews
-
-- Senior Code Review
-- Security Review
-- Database Review
-- API Review
-
-## Architecture
-
-- System Design Review
-- Microservices Review
-- Cloud Architecture Review
-
-## Operations
-
-- Production Readiness Review
-- Incident Analysis
-- Root Cause Analysis
-
-## Learning
-
-- DSA Tutor
-- Low Level Design Tutor
-- High Level Design Tutor
-
-## Interviewing
-
-- Google L5 Interviewer
-- Staff Engineer Interviewer
-
----
-
-# Installation (Skills)
-
-You can install Agent Powerhouse skills using CLI tools or configure them manually.
-
-## 1. Using GitHub CLI (gh)
+## 2. Using GitHub CLI (gh)
 
 If you have the `gh skill` extension installed, you can add this repository easily:
 
@@ -267,7 +242,7 @@ gh skill install zeeroiq/agent-powerhouse --global
 gh skill install zeeroiq/agent-powerhouse
 ```
 
-## 2. Using NPM / NPX
+## 3. Using NPM / NPX
 
 You can use the `skills` CLI package to add these skills:
 
@@ -287,7 +262,7 @@ npx skills add api-design zeeroiq/agent-powerhouse
 npx skills add backend-patterns zeeroiq/agent-powerhouse
 ```
 
-## 3. Manual Antigravity Installation
+## 4. Manual Antigravity Installation
 
 Antigravity natively supports the structure of this repository. You can install these skills either globally or on a per-workspace basis manually.
 
@@ -324,16 +299,16 @@ This makes the skills available only in a specific project.
    }
    ```
 
-## 4. GitHub Copilot Installation
+## 5. GitHub Copilot Installation
 
 GitHub Copilot relies on custom instructions placed within the target repository.
 
 1. **Copy the Copilot Instructions:**
    Copy `.github/copilot-instructions.md` from this repository to your target repository's `.github/` folder.
 2. **Include the Skills Directory:**
-   Copy the `skills/` directory from this repository into your target project. 
+   Copy the relevant `plugins/<plugin>/skills/` directory from this repository into your target project. 
 3. **Usage:**
-   Copilot will automatically read the `.github/copilot-instructions.md` file. This file contains baseline rules and explicitly instructs Copilot to consult the `skills/` directory when performing tasks.
+   Copilot will automatically read the `.github/copilot-instructions.md` file. This file contains baseline rules and explicitly instructs Copilot to consult the skills directory when performing tasks.
 
 ---
 
@@ -343,7 +318,7 @@ Current target platforms:
 
 | Platform | Status |
 |-----------|----------|
-| Claude Code | Planned |
+| Claude Code | Supported (Marketplace: `claude plugin marketplace add zeeroiq/agent-powerhouse`) |
 | Cursor | Planned |
 | Gemini CLI | Planned |
 | OpenClaw | Planned |
