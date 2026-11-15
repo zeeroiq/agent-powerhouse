@@ -72,8 +72,10 @@ mkdir -p "${AGENTS_DIR}" "${CLAUDE_DIR}"
 
 echo "Syncing skills from plugins/ to .agents/skills/ and .claude/skills/ (mode: ${MODE})..."
 
+SKILL_COUNT=0
 for pskill in "${REPO_ROOT}"/plugins/*/skills/*; do
   [[ -d "${pskill}" ]] || continue
+  SKILL_COUNT=$((SKILL_COUNT + 1))
   skill_name="$(basename "${pskill}")"
   domain_name="$(basename "$(dirname "$(dirname "${pskill}")")")"
   rel_target="../../plugins/${domain_name}/skills/${skill_name}"
@@ -91,4 +93,4 @@ for pskill in "${REPO_ROOT}"/plugins/*/skills/*; do
   done
 done
 
-echo "Synced 23 skills successfully."
+echo "Synced ${SKILL_COUNT} skills successfully."

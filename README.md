@@ -204,7 +204,7 @@ The repository root defines `.claude-plugin/marketplace.json`, allowing teams an
 Agent Powerhouse delivers both **Claude Code Marketplace modularity** and **universal Agent Skills interoperability** without duplicating source files:
 
 1. **Single Source of Truth (`plugins/`):** The authoritative skill definitions and autonomous agent prompts live under `plugins/<domain>/skills/` and `plugins/<domain>/agents/`.
-2. **Universal Open Standard Surface (`.agents/skills/`):** All 23 skills are exposed as a flat, un-nested directory tree at `.agents/skills/` via relative symlinks, conforming strictly to the open [Agent Skills specification](https://agentskills.io) adopted across the industry.
+2. **Universal Open Standard Surface (`.agents/skills/`):** All 24 skills are exposed as a flat, un-nested directory tree at `.agents/skills/` via relative symlinks, conforming strictly to the open [Agent Skills specification](https://agentskills.io) adopted across the industry.
 3. **Compatibility Mirror (`.claude/skills/`):** Symlinks mirror `.agents/skills/` into `.claude/skills/`, providing out-of-the-box discovery for Cursor compatibility paths and direct repository vendoring in Claude Code without marketplace installation.
 4. **Automated Drift Prevention (`scripts/sync-skills.sh`):** A verification script ensures bidirectional parity in CI (`./scripts/sync-skills.sh --check`), with `--copy` fallback support for file systems where symlinks are restricted.
 5. **Unified Instructions & Bridge (`AGENTS.md` & `CLAUDE.md`):** Core engineering rules live in `AGENTS.md`. A root `CLAUDE.md` file imports `@AGENTS.md`, ensuring all agent environments execute identical behavioral standards.
@@ -234,7 +234,7 @@ For direct repository vendoring or offline workspace linking without marketplace
 
 ## 2. Cursor
 
-Cursor natively discovers all 23 skills from `.agents/skills/` (and `.claude/skills/`) and enforces guidelines from `AGENTS.md`:
+Cursor natively discovers all 24 skills from `.agents/skills/` (and `.claude/skills/`) and enforces guidelines from `AGENTS.md`:
 
 1. Clone or submodule this repository into your workspace (e.g. `vendor/agent-powerhouse`).
 2. Alternatively, symlink or copy `.agents/skills/` into your project's `.agents/skills/` or `.cursor/skills/`.
@@ -253,7 +253,7 @@ Antigravity natively discovers workspace customizations:
 
 ### Workspace Discovery
 Opening this repository in Antigravity automatically detects:
-- All 23 skills in `.agents/skills/`
+- All 24 skills in `.agents/skills/`
 - Workspace rules in `AGENTS.md` and `PRO_STANDARDS.md`
 - Non-standard declared paths in `skills.json`
 
