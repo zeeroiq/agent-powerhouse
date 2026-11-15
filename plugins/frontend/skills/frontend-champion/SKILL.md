@@ -2,6 +2,8 @@
 name: frontend-champion
 description: Mandatory first step for any frontend, UI, or UX work, no matter how small. Covers building or editing a component, page, screen, dashboard, form, landing page, nav, modal, chart, table, or layout; fixing styling, spacing, color, animation, or responsiveness; reviewing or critiquing an existing interface; or converting a design or mockup into code, in React, Vue, Svelte, plain HTML and CSS, Tailwind, or mobile UI. Use this even for requests that look trivial, like a single button or a one-line color change, and even when the user does not explicitly say UI or frontend. If the task touches anything a person will look at or click on, read this in full before writing or editing any code or discussing visual design. Skipping this step is what produces generic, unverified, first-draft output.
 compatibility: Works standalone. Most effective with a Figma MCP connected, a component-registry MCP (shadcn MCP / 21st.dev Magic MCP), a current-docs MCP (Context7 or similar), and a browser/screenshot MCP (Playwright MCP / Chrome DevTools MCP). Degrades gracefully, and says so, when any of these are missing.
+metadata:
+  origin: AgentPowerHouse - APH
 ---
 
 # Frontend Champion

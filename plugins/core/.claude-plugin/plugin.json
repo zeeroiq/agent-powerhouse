@@ -1,7 +1,7 @@
 {
   "name": "agent-powerhouse-core",
   "version": "1.0.0",
-  "description": "General engineering process skills and autonomous agents for planning, architecture, TDD, and debugging.",
+  "description": "General engineering process skills and autonomous agents for planning, architecture, TDD, debugging, and security review.",
   "author": {
     "name": "zeeroiq"
   },
@@ -13,6 +13,7 @@
     "planning",
     "tdd",
     "debugging",
+    "security",
     "deep-research"
   ]
 }
